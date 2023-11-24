@@ -40,3 +40,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+*.i64
+*.idb
+*.cache
+*.jadx

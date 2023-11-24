@@ -5,6 +5,7 @@ import org.jf.dexlib2.dexbacked.DexBackedDexFile
 import org.jf.dexlib2.dexbacked.util.FixedSizeList
 import org.jf.dexlib2.iface.instruction.formats.ArrayPayload
 import org.jf.util.ExceptionWithContext
+import site.gaoyucan.ext.*
 
 class DexPatchArrayPayload(rawInstruction: ByteArray, dexFile: DexBackedDexFile) :
     DexPatchInstruction(Opcode.ARRAY_PAYLOAD, rawInstruction, dexFile), ArrayPayload {

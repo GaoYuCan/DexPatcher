@@ -15,6 +15,8 @@ import org.jf.dexlib2.immutable.ImmutableAnnotation
 import org.jf.dexlib2.immutable.ImmutableMethod
 import org.jf.dexlib2.immutable.ImmutableMethodImplementation
 import org.jf.dexlib2.immutable.ImmutableMethodParameter
+import org.jf.dexlib2.immutable.instruction.ImmutableInstruction10t
+import org.jf.dexlib2.immutable.instruction.ImmutableInstruction10x
 import org.jf.dexlib2.rewriter.DexRewriter
 import org.jf.dexlib2.rewriter.MethodRewriter
 import org.jf.dexlib2.rewriter.Rewriter
@@ -61,8 +63,14 @@ class Main {
                                 var i = 0
                                 while (i < codeSegSize) {
                                     var op = rawMethod.readUnsignedByte()
+                                    // TODO: 这里存在问题，按理说该放后面，但是这里我确定几个 Payload 和 Nop 都没动，所以先这样吧
                                     if (op == 0x00) { // maybe Payload
                                         op = rawMethod.readUnsignedByte() shl 8
+                                    }
+                                    if (op == 0x00) { // 提前处理 NOP
+                                        instructions.add(ImmutableInstruction10x(Opcode.NOP))
+                                        i += 2
+                                        continue
                                     }
                                     // 获取原始（真实） opcode
                                     if (op !in opcodesMap.keys) { // 验证是否已经找到对应的修改后的opcode
